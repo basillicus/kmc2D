@@ -1,0 +1,4 @@
+      write(*,*)'>>>>>>>>  Version    : 1.2 '
+      write(*,*)'>>>>>>>>  Build      : Fri Nov 19 18:15:30 GMT 2010 '
+      write(9,*)'>>>>>>>>  Version    : 1.2 '
+      write(9,*)'>>>>>>>>  Build      : Fri Nov 19 18:15:30 GMT 2010 '

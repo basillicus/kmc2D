@@ -1,0 +1,5 @@
+* Check the elem_barrier
+    Si la baarrera elem_barrier(1) < 0.3 , la molécula adsorbida sólo difunde y
+    no se da el proceseo de adsorción
+
+* Actualizar el README

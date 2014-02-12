@@ -1,0 +1,62 @@
+2014-01-20 David Abbasi (abbasi.david_at_gmail.com)
+	* do_test (): Allows to save/load initial configuration files.
+
+2014-01-19 David Abbasi (abbasi.david_at_gmail.com)
+	* param.f90: Keyword 'allow_high_coverage' added
+	* is_occupied function: Checks if is occupied depending on the
+	allow_high_coverage value.
+	* occupied.f90 : Added check_inter_linker function to fine tune energy
+	barriers between cis and trans isomerizations in a linker.
+
+2013-06-27 David Abbasi (abbasi.david_at_gmail.com)
+	* README : Updated
+	* code: General code commented
+
+2013-06-26 David Abbasi (abbasi.david_at_gmail.com)
+
+	* random.f90 : Added init_random_seed function
+	* param.f90: Seed for random number generation is created at the runtime
+	             using the system clock.
+				 · Keyword "Multicolor" lets draw the different isomers in
+				 different colors
+				 · Keyword "show_proportions" to see the proportions of the
+				 differents isomers
+	* objetcs.f90 : draw_proportions function created
+	* draw.f90 :  sums all the different isomers for computing the proportions
+
+2013-06-25 David Abbasi (abbasi.david_at_gmail.com)
+
+	* hat.f90 : Updated
+	* intreactions.f90 : Bug fixed. Added matrix isomer_M(12,2) for
+	isomerization movements
+	* objects.f90 : Draws the molecules smaller
+	* all_moves.f90 : Added isomerization
+	* interactions.f90 : Added arrays for the isomerization movement
+	* make_move.f90 : Included the isomerization
+	* param.f90: Edited to read new barriers
+
+
+2013-06-24 David Abbasi (abbasi.david_at_gmail.com)
+
+Version 1.0.2
+
+	* is_occupied() function: Simplified. Only checks if the grid point "i"
+	is occupied or not. This allows a side by side configuration. Problem of
+	this: Molecules inside a chain can rotate and leave the chain, even when
+	the barrier becomes high.  
+	* all_moves: Changed the diffusion part acording to allow one molecule per
+	each grid point allowing side by side molecules. 
+
+		ALTERNATIVE: Use the all_moves of the version 1.0.1 where the
+		molecules uses two grid points, but you have to modify the is_occupied
+		function, and check if the movement will yield a parallel configuration,
+		in such a case you can allow the movement even when the site is
+		occupied by a contiguous molecule.
+
+	* README: Updated
+
+	* interections.f90: New Module created with the interactions Matrix and
+	the function interactions, for checking up the interactions with the
+	environment and compute the barriers.
+
+

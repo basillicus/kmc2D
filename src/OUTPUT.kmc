@@ -1,0 +1,104 @@
+ .....................................................
+ .....................................................
+ .......         Kinetic Monte Carlo            ......
+ .......   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^   ......
+ .......         Hexagonal lattice              ......
+ .......     Designed for PTMDC@Ag(111) problem ......
+ .......   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^   ......
+ .....................................................
+ >>>>>>>>  1st release: 15.11.2010
+ >>>>>>>>  Version    : 1.2 
+ >>>>>>>>  Build      : Fri Nov 19 18:15:30 GMT 2010 
+ >>>>>>>>  today      : mar nov  5 01:05:57 CET 2013  
+ .....................................................
+ ......      inquiries to L. Kantorovich     .........
+ ......      lev.kantorovitch@kcl.ac.uk      .........
+ .....................................................
+=============================================
+==> STYLE: standard KMC -> variable time-step
+=============================================
+
+... string:: {restart} found
+... restart from file restart.kmc
+
+... string:: {formatted} NOT found
+... [kmc.out] will be UNFORMATTED
+... Periodic Boundary Conditions = ON
+... Molecules come from the opposite wall when crossing
+
+... string:: {dimension} found
+... Supercell size  =    10 x    10
+... Total number of sites available to PTMDC =>        100
+... Total number of sites available for drawing =>        144
+
+... string:: {deposition_rate} found
+... deposition rate = 0.100000E-03 ps^{-1}
+
+... string:: {coverage} found
+... coverage =    0.20000
+... Maximum number of M molecules to deposit =         20
+
+... string:: {number_of_kmc_steps} found
+... Number of KMC steps found =    1000000
+
+... string:: {do_testing} NOT found
+... TESTING = F
+
+... string:: {barriers} found
+
+... string:: {temperature} found
+
+============|  Barriers (in Ev)  and Rates (in ps^-1) |============
+   Temperature =    300.000 K
+ 1. PTMDC diffusion via pivoting:     0.03000 0.313345E+01
+ 2. PTMDC-PTMDC single detachment:    0.20000 0.436668E-02
+ 3. PTMDC single isomerization:        0.40000 0.190679E-05
+ 4. Extra barrier due assisted isomer.:   0.20000 0.436668E-02
+ 5. PTMDC desorption from surface:    2.40000 0.480640E-39
+ 6. Extra end-isomer. barrier in a linker:    0.01300 0.841859E-52
+ 8. PTMDC deposition on surface:      0.00000 0.100000E-03
+===================================================================
+
+
+... string:: {printing} found
+... Printing level = 1
+
+... string:: {show_site_numbers} NOT found
+... Site numbers will NOT be shown
+
+... string:: {multicolor} found
+... You choose Multicolor: (Inspired on the Day Of The Tentacle)
+....... Cis : Blue rectangles, pink circles 
+....... L-trans: Magenta rectangles, green circles
+....... D-trans: Green rectangles, yellow circles
+
+... string:: {drawing_frequency} found
+... Printing every     100000 frames
+
+... string:: {drawing_scale} found
+... Scale for drawing frames =  1000
+
+... string:: {drawing_title_size} found
+... Size for drawing titles on frames =    40
+
+... string:: {show_images} NOT found
+... Drawing: images=F
+
+... string:: {no_jpgs} NOT found
+... Drawing: Create JPGs=T
+
+... string:: {show_proportions} found
+... Show isomers proportion= T
+
+... Input file has been read in successfully ...
+
+ ...> Direct lattice vectors: 
+[1]     1.00000    0.00000
+[2]     0.50000    0.86603
+ ...> Reciprocal lattice vectors: 
+[1]     1.00000   -0.57735
+[2]    -0.00000    1.15470
+ WARNING: The coverage target reached at KMC step      1010001
+          NO more deposition!
+_____}> going to [finish] to STOP <{________ normal END
+______]> STOP in [finish] at KMC=             2010000

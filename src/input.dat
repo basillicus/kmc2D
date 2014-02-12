@@ -1,0 +1,36 @@
+dimension 10
+printing 1
+#
+#.... elementary barriers (in eV) and inverse temperature (in 1/eV), temperature (K)
+#     1 - PTMDC diffusion via pivoting mechanism
+#     2 - PTMDC-PTMDC detachement (a dimer); then additive
+#     3 - PTMDC single isomerization
+#     4 - PTMDC extra barrier for assisted isomerization
+#     5 - PTMDC desorption from surface
+#     6 - PTMDC extra isomerization barrier because in a linker
+barriers 0.03 0.2 0.4 0.2 2.4 0.013
+temperature 300.0
+
+
+#fixed_time_step 0.1
+#temperature_ramp 0.000025
+
+deposition_rate    0.0001
+coverage 0.2
+# allow_high_coverage
+
+number_of_kmc_steps 1000000
+
+printing 4
+drawing_frequency 100000
+#show_images
+#no_jpgs
+drawing_scale  1000
+drawing_title_size 40
+
+restart restart.kmc
+#do_testing
+#formatted
+#show_site_numbers
+multicolor
+show_proportions
