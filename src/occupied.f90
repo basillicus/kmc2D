@@ -188,7 +188,7 @@ module occupied
             inn = check_inter_isomer(occ(i),i,isomerization)
             ! If the end is free,then check if is in a linker
             if (inn == 0 ) then
-              ! Check if is in a linker and which kind is.
+              ! Check if is in a linker and which kind it is.
               !------------------------------------------------------------------------------ 
               ! TODO:
               ! CHECK if is well called the subroutine
@@ -538,11 +538,6 @@ if (allow_high_coverage) then
 
  end function
 
-
-
-
-
-
  integer function check_interactions(A,pos)
  !---------------------------------------------------------------
  ! Input:  A - occ of the molecule to be checked
@@ -590,20 +585,24 @@ if (allow_high_coverage) then
      use info
      ! Kind of isomerization (1 or 2)
      implicit none
-     integer  :: A,B,pos,kind,inn
+     integer  :: A,B,pos,kind,j,inn
  
      ! Check the environment for the isomeriztaion movement
      inn = 0
      if (A <= 4) then 
-         B = occ(neighb_M(pos,dir_isomer(A,kind)))
+         j = dir_isomer(A,kind)
+         B = occ(neighb_M(pos,j))
      else if (A <= 8) then 
-         B = occ(neighb_M(pos,dir_isomer(A,kind))) - 4
+         j = dir_isomer(A,kind)
+         B = occ(neighb_M(pos,j)) - 4
      else ! if (A <= 12 ) then 
-         B = occ(neighb_M(pos,dir_isomer(A,kind))) - 8
+         j = dir_isomer(A,kind)
+         B = occ(neighb_M(pos,j)) - 8
      end if
-     ! Molecule A only interacts with molecules B with the same direction as 
-     ! A (parallel molecules) regardless of the configuration of B.
-     if ( B > 0 .and. B <= 4 ) inn = 1
+     ! Molecule A interacts with molecules B with the same direction as 
+     ! A (parallel molecules). Checks if there is interaction with the matrix of
+     ! interactions M_int(A,B,j)
+     if ( B > 0 .and. B <= 4 ) inn = M_int(A,B,j)
      check_inter_isomer = inn
  end function
  
@@ -617,8 +616,12 @@ if (allow_high_coverage) then
      ! which kind of linker
      inn = 0
      ! --------------------------------------------------------------------------------
-     ! TODO: Create a better routine. Up to now we only increase the barrier if the
-     ! monomer to isomerize is trans, regardless of the environment.
+     ! TODO: Create a better routine. Up to now we only increase the barrier if
+     ! the monomer to isomerize is trans, regardless of the environment. The
+     ! increase of the barrier if the monomer is part of a linker is too low
+     ! (0.020 eV) so in principle has a very little effect, and we can consider
+     ! the isomerization of the "tail of a linker" as an isomerization of an
+     ! isolated monomer.
      ! --------------------------------------------------------------------------------
      if (A == 3  .or. A == 4 .or.  A == 7  .or. A == 8 .or.  A == 11 .or. A == 12 ) then
          inn = 1
