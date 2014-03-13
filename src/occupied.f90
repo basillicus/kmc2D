@@ -600,9 +600,8 @@ if (allow_high_coverage) then
          B = occ(neighb_M(pos,j)) - 8
      end if
      ! Molecule A interacts with molecules B with the same direction as 
-     ! A (parallel molecules). Checks if there is interaction with the matrix of
-     ! interactions M_int(A,B,j)
-     if ( B > 0 .and. B <= 4 ) inn = M_int(A,B,j)
+     ! A (parallel molecules) regardless of the configuration of B.
+     if ( B > 0 .and. B <= 4 ) inn = 1
      check_inter_isomer = inn
  end function
  
