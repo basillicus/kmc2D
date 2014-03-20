@@ -116,14 +116,16 @@ program KMC_main
      call error_check(occ,kmc)
 !
 !________________________ save to the file the current configuration
-     if(.not.write_formatted) then
-        write(10) kmc,dt,time,    no_chg,(i_chg(j),occ_chg(j),j=1,no_chg), &
-             m,move(m)%type,move(m)%ini,move(m)%fin,move(m)%dir
-     else
-        write(10,'(i20,2(x,e12.6))') kmc,dt,time
-        write(10,'(i10,x,a10,3(x,i10))') m,move(m)%type,move(m)%ini,move(m)%fin, &
-             move(m)%dir
-        write(10,'(7(i10,x))') no_chg,(i_chg(j),occ_chg(j),j=1,no_chg)
+     if (write_kmcout) then
+         if(.not.write_formatted) then
+            write(10) kmc,dt,time,    no_chg,(i_chg(j),occ_chg(j),j=1,no_chg), &
+                 m,move(m)%type,move(m)%ini,move(m)%fin,move(m)%dir
+         else
+            write(10,'(i20,2(x,e12.6))') kmc,dt,time
+            write(10,'(i10,x,a10,3(x,i10))') m,move(m)%type,move(m)%ini,move(m)%fin, &
+                 move(m)%dir
+            write(10,'(7(i10,x))') no_chg,(i_chg(j),occ_chg(j),j=1,no_chg)
+         end if
      end if
 !
      if(iPrnt.ge.2) then

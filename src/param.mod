@@ -1,5 +1,5 @@
-GFORTRAN module version '6' created from param.f90 on Thu Mar 13 12:41:12 2014
-MD5:50eb03d6518a2a6edfd7afc3321d0fc6 -- If you edit this, you'll get what you deserve.
+GFORTRAN module version '6' created from param.f90 on Thu Mar 20 16:53:34 2014
+MD5:beb1a32649ebc6006ccd2a4f6b60a00b -- If you edit this, you'll get what you deserve.
 
 (() () () () () () () () () () () () () () () () () () () () () () ()
 () () () ())
@@ -163,6 +163,9 @@ UNKNOWN UNKNOWN 0 0) (INTEGER 4 0 0 INTEGER ()) 0 0 () () 0 () () () 0 0)
 83 'write_formatted' 'param' 'write_formatted' 1 ((VARIABLE
 UNKNOWN-INTENT UNKNOWN-PROC UNKNOWN UNKNOWN 0 0) (LOGICAL 4 0 0 LOGICAL
 ()) 0 0 () () 0 () () () 0 0)
+84 'write_kmcout' 'param' 'write_kmcout' 1 ((VARIABLE UNKNOWN-INTENT
+UNKNOWN-PROC UNKNOWN UNKNOWN 0 0) (LOGICAL 4 0 0 LOGICAL ()) 0 0 () () 0
+() () () 0 0)
 14 'numlin' '' 'numlin' 12 ((VARIABLE UNKNOWN-INTENT UNKNOWN-PROC
 UNKNOWN UNKNOWN 0 0 DUMMY) (INTEGER 4 0 0 INTEGER ()) 0 0 () () 0 () ()
 () 0 0)
@@ -233,4 +236,5 @@ UNKNOWN 0 0 DUMMY) (INTEGER 4 0 0 INTEGER ()) 0 0 () () 0 () () () 0 0)
 'pref' 0 63 'real_seed' 0 64 'restart' 0 65 'restart_filename' 0 66
 'rotate' 0 67 'scale' 0 68 'seed' 0 69 'show_prop' 0 70 'show_site_num'
 0 71 'skipl' 0 72 'standard_kmc' 0 76 'strings' 0 77 'temp' 0 78 'temp1'
-0 79 'testing' 0 80 'tiny' 0 81 'tsize' 0 82 'write_formatted' 0 83)
+0 79 'testing' 0 80 'tiny' 0 81 'tsize' 0 82 'write_formatted' 0 83
+'write_kmcout' 0 84)

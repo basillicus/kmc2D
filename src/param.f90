@@ -48,7 +48,7 @@ module param
   logical restart
   character restart_filename*50
 !... kmc.out file formatting
-  logical write_formatted
+  logical write_formatted, write_kmcout
 !... strings for working with input
   character Line*200
   integer LinEnd(100),LinPos(100),NumLin,iErr
@@ -87,16 +87,24 @@ module param
        restart=.true.
     end if
 !
-!______________ whether to write kmc.out formatted or not
-    call find_string('formatted',9,Line,1,.true.,iErr)
-    if(iErr.ne.0) then
-       write(*,'(a)')'... [kmc.out] will be UNFORMATTED'
-       write(9,'(a)')'... [kmc.out] will be UNFORMATTED'
-       write_formatted=.false.
-    else
-       write(*,'(a)')'... [kmc.out] will be FORMATTED'
-       write(9,'(a)')'... [kmc.out] will be FORMATTED'
-       write_formatted=.true.
+!______________ whether to write kmc.out, formatted or not
+    write_kmcout = .false.
+    call find_string('write_kmcout',12,Line,1,.true.,iErr)
+    if (iErr == 0 ) then 
+        write_kmcout = .true.
+        call find_string('formatted',9,Line,1,.true.,iErr)
+        if(iErr.ne.0) then
+           write(*,'(a)')'... [kmc.out] will be UNFORMATTED'
+           write(9,'(a)')'... [kmc.out] will be UNFORMATTED'
+           write_formatted=.false.
+        else
+           write(*,'(a)')'... [kmc.out] will be FORMATTED'
+           write(9,'(a)')'... [kmc.out] will be FORMATTED'
+           write_formatted=.true.
+        end if
+    else 
+       write(*,'(a)')'... [kmc.out] will not be written'
+       write(9,'(a)')'... [kmc.out] will not be written'
     end if
 !
 !_______________ only PBC
