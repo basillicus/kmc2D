@@ -609,11 +609,11 @@ if (allow_high_coverage) then
      use info
      ! Kind of isomerization (1 or 2)
      implicit none
-     integer  :: A,B,C,pos,kind,inn
+     integer  :: A,B,C,pos,kind
  
      ! Check if the molecule is in a linker, and if yes
      ! which kind of linker
-     inn = 0
+     check_inter_linker = 0
      ! --------------------------------------------------------------------------------
      ! TODO: Create a better routine. Up to now we only increase the barrier if
      ! the monomer to isomerize is trans, regardless of the environment. The
@@ -623,7 +623,7 @@ if (allow_high_coverage) then
      ! isolated monomer.
      ! --------------------------------------------------------------------------------
      if (A == 3  .or. A == 4 .or.  A == 7  .or. A == 8 .or.  A == 11 .or. A == 12 ) then
-         inn = 1
+         check_inter_linker = 1
      end if
  end function
 end module occupied
