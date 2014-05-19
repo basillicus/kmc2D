@@ -50,9 +50,7 @@ implicit none
 !           \  #  /     o---x      
 ! A-->       o---x     /     \  
 !        k = 4         k = 3
-!        2 inter.      0 inter.         ! 0 interactions casuse is an unstable
-!                                       ! strucure on GasPhase
-!       
+!        2 inter.      1 inter.         ! 1 interactions        
 ! 
 ! A: Central molecule state, but only the 1st four state are needed as others are
 !    obtained by subtracting 4 or 8
@@ -64,26 +62,25 @@ implicit none
 !      
 !          A = 1              A = 2                  A = 3                A = 4         
 !B = 1     A,B,k
-    M_int (1,1,1) = 0;   M_int (2,1,1) = 2;   M_int (3,1,1) = 2;   M_int (4,1,1) = 0
-    M_int (1,1,2) = 0;   M_int (2,1,2) = 2;   M_int (3,1,2) = 0;   M_int (4,1,2) = 2
-    M_int (1,1,3) = 0;   M_int (2,1,3) = 0;   M_int (3,1,3) = 0;   M_int (4,1,3) = 0
-    M_int (1,1,4) = 0;   M_int (2,1,4) = 0;   M_int (3,1,4) = 0;   M_int (4,1,4) = 0
+    M_int (1,1,1) = 1;   M_int (2,1,1) = 2;   M_int (3,1,1) = 2;   M_int (4,1,1) = 1
+    M_int (1,1,2) = 1;   M_int (2,1,2) = 2;   M_int (3,1,2) = 1;   M_int (4,1,2) = 2
+    M_int (1,1,3) = 1;   M_int (2,1,3) = 0;   M_int (3,1,3) = 1;   M_int (4,1,3) = 0
+    M_int (1,1,4) = 1;   M_int (2,1,4) = 0;   M_int (3,1,4) = 0;   M_int (4,1,4) = 1
 ! B = 2
-    M_int (1,2,1) = 0;   M_int (2,2,1) = 0;   M_int (3,2,1) = 0;   M_int (4,2,1) = 0
-    M_int (1,2,2) = 0;   M_int (2,2,2) = 0;   M_int (3,2,2) = 0;   M_int (4,2,2) = 0
-    M_int (1,2,3) = 2;   M_int (2,2,3) = 0;   M_int (3,2,3) = 2;   M_int (4,2,3) = 0
-    M_int (1,2,4) = 2;   M_int (2,2,4) = 0;   M_int (3,2,4) = 0;   M_int (4,2,4) = 2
+    M_int (1,2,1) = 0;   M_int (2,2,1) = 1;   M_int (3,2,1) = 1;   M_int (4,2,1) = 0
+    M_int (1,2,2) = 0;   M_int (2,2,2) = 1;   M_int (3,2,2) = 0;   M_int (4,2,2) = 1
+    M_int (1,2,3) = 2;   M_int (2,2,3) = 1;   M_int (3,2,3) = 2;   M_int (4,2,3) = 1
+    M_int (1,2,4) = 2;   M_int (2,2,4) = 1;   M_int (3,2,4) = 1;   M_int (4,2,4) = 2
 ! B = 3
-    M_int (1,3,1) = 0;   M_int (2,3,1) = 2;   M_int (3,3,1) = 2;   M_int (4,3,1) = 0
-    M_int (1,3,2) = 0;   M_int (2,3,2) = 0;   M_int (3,3,2) = 0;   M_int (4,3,2) = 0
-    M_int (1,3,3) = 2;   M_int (2,3,3) = 0;   M_int (3,3,3) = 2;   M_int (4,3,3) = 0
-    M_int (1,3,4) = 0;   M_int (2,3,4) = 0;   M_int (3,3,4) = 0;   M_int (4,3,4) = 0
+    M_int (1,3,1) = 1;   M_int (2,3,1) = 2;   M_int (3,3,1) = 2;   M_int (4,3,1) = 1
+    M_int (1,3,2) = 0;   M_int (2,3,2) = 1;   M_int (3,3,2) = 0;   M_int (4,3,2) = 1
+    M_int (1,3,3) = 2;   M_int (2,3,3) = 1;   M_int (3,3,3) = 2;   M_int (4,3,3) = 1
+    M_int (1,3,4) = 1;   M_int (2,3,4) = 0;   M_int (3,3,4) = 0;   M_int (4,3,4) = 1
 ! B = 4
-    M_int (1,4,1) = 0;   M_int (2,4,1) = 0;   M_int (3,4,1) = 0;   M_int (4,4,1) = 0
-    M_int (1,4,2) = 0;   M_int (2,4,2) = 2;   M_int (3,4,2) = 0;   M_int (4,4,2) = 2
-    M_int (1,4,3) = 0;   M_int (2,4,3) = 0;   M_int (3,4,3) = 0;   M_int (4,4,3) = 0
-    M_int (1,4,4) = 2;   M_int (2,4,4) = 0;   M_int (3,4,4) = 0;   M_int (4,4,4) = 2
+    M_int (1,4,1) = 0;   M_int (2,4,1) = 1;   M_int (3,4,1) = 1;   M_int (4,4,1) = 0
+    M_int (1,4,2) = 1;   M_int (2,4,2) = 2;   M_int (3,4,2) = 1;   M_int (4,4,2) = 2
+    M_int (1,4,3) = 1;   M_int (2,4,3) = 0;   M_int (3,4,3) = 1;   M_int (4,4,3) = 0
+    M_int (1,4,4) = 2;   M_int (2,4,4) = 1;   M_int (3,4,4) = 1;   M_int (4,4,4) = 2
 end subroutine
-
 
 end module

@@ -30,6 +30,7 @@ drawing_title_size 40
 
 restart restart.kmc
 #do_testing
+#write_kmcout
 #formatted
 #show_site_numbers
 multicolor
