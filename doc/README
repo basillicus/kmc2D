@@ -1,0 +1,91 @@
+version 1.0.2  27.06.2013
+^^^^^^^^^^^^^
+
+ - KMC designed for a para-terPhenyl-meta-Dicarbonitrile (PTMDC) on Ag(111).
+A release based on the KMC code for PTCDA.
+
+Implements the following features:
+ - Hexagonal lattice with the x and y axes directions non-equivalent
+ !
+ !              (4)--------(3)--------(2)    
+ !              ·.         · .         ·     
+ !             ·  .       ·   .       ·      
+ !            ·    .     ·     .     ·       
+ !           ·      .   ·       .   ·        
+ !          ·        · ·         . ·         
+ !        (5)--------(i)---------(1)          
+ !       · .         ·.          ·               
+ !      ·   .       ·  .        ·                
+ !     ·     .     ·    .      ·                 
+ !    ·       .   ·      .    ·                  
+ !   ·         . ·        .  ·                
+ !  (6)--------(7)---------(8)                  
+ !
+ !  (j) : j-vector indicates the position of the neighbour of the site (i).
+
+ - Molecules has 12  posible configurations
+   and can sit only on grid points, using 1 grid points at a time.
+   
+                 \     /        /   \                    
+          o---x   o---x    o---x     o---x                            
+         /     \          /               \       
+   occ ==   1       2        3         4
+         ------CIS------|----L---TRANS---D--   
+                                          
+               x--   --x     --x          x--
+              /       /        /         /
+             /       /        /         /
+            o--   --o        o--     --o 
+   occ =    5       6        7        8 
+                                           
+         ------CIS------|----L---TRANS---D--
+                                          
+         x--      --x       --x        x--
+          \          \         \        \     
+           \          \         \        \   
+            o--      --o         o--    --o 
+   occ =    9       10        11       12
+  
+            o : Site used to describe the position of the molecule on the grid
+            x : Extreme of  the molecule
+
+ - Desorption and adsorption of all the posible isomers
+
+ - Pivoting in 4 possible directions
+
+               # pivoting  
+    Init        1           2           3           4
+  ..................................... x-- .... --o   
+                                       /            \  
+                                      /              \ 
+  o---x ...... x-- .... --o    ..... o-- .......... --x
+ /     \      /            \   
+             /              \  
+........... o-- .......... --x ........................
+
+
+ - Single isomerization and assisted isomerization
+
+ Interactions
+ -------------
+
+ * Scheeme of the meaning of the matrix M_int(A,B,j):
+
+                              /                
+B-->   o---x             o---x        ! Symbol "#" represents interactions
+      /   # \           /             ! hydrogen bonds
+          #  #         #  
+          \  #  /     o---x      
+A-->       o---x     /     \  
+       j = 4         j = 3
+       2 inter.      1 inter.       
+      
+version 1.0  05.05.2013
+^^^^^^^^^^^
+
+a basic release based on the KMC code for PTCDA. The following features:
+ - square lattice with the x and y axes directions non-equivalent
+ - molecules are rectangulars and can sit only on grid points 
+ - desorption and adsorption
+ - diffusion in 4 directions
+
