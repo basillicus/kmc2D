@@ -18,6 +18,7 @@ module param
 !     5 - PTMDC desorption from surface
 !     6 - PTMDC extra isomerization barrier because in a linker
   real*8 elem_barriers(20),beta,Temp,pref,beta1,Temp1
+  logical ignore_single_HB
 !
 !... 
   real*8,parameter :: Boltzm=  8.617343e-5  ! in eV/K
@@ -215,6 +216,13 @@ module param
     write(9,'(a,f10.5,x,e12.6)') ' 8. PTMDC deposition on surface:   ',elem_barriers(8),rat(8)
     write(9,'(a/)')'==================================================================='
 !
+!_________________ Ignoring Single HB 
+!
+    ignore_single_HB = .false.
+    call find_string('ignore_single_HB',16,Line,1,.true.,iErr)
+    if(iErr.eq.0) ignore_single_HB = .true.
+    write(9,'(a,l1)')'... Ignore Single H-bond = ',ignore_single_HB
+!
 !________________ level of print: 0 - very little; 5 - a lot
 ! 
    iPrnt=0
@@ -302,17 +310,32 @@ module param
     if(iErr.eq.0) allow_high_coverage=.true.
     write(9,'(a,l1)') '... Allow High Coverage Phase = ',allow_high_coverage 
 !
-    close (1)
-    write(*,'(/a/)')'... Input file has been read in successfully ...'
-    write(9,'(/a/)')'... Input file has been read in successfully ...'
+!___________ Choose fixed or random seed for random number generation
+    seed= 0
+    call find_string('seed',4,Line,1,.true.,iErr)
+    if(iErr.eq.0) then
+       call CutStr(Line,NumLin,LinPos,LinEnd,0,0,iErr)
+       if(NumLin.lt.2) go to 10
+       read(Line(LinPos(2):LinEnd(2)),*,err=10) seed
+    end if
+    if (seed > 0 ) then 
+        seed = -seed
+        write(9,'(a,i6)')'... Seed used for Random Number Generation = ', -seed
+    else 
 !
 !__________ Change the seed for random numbers generation
 !
 !__________ initialise seed
-!     call init_random_seed()
-!     call random_number(real_seed)
-!     seed = -int(real_seed*10000)-1
-     seed = -6
+        call init_random_seed()
+        call random_number(real_seed)
+        seed = -int(real_seed*10000)-1
+        write(9,'(a,i6)')'... Random seed used for Random Number Generation = ', -seed
+    end if 
+!
+    close (1)
+    write(*,'(/a/)')'... Input file has been read in successfully ...'
+    write(9,'(/a/)')'... Input file has been read in successfully ...'
+
     return
 !................ errors in reading input
 10  write(*,*)'FATAL errors in reading the input file!'
