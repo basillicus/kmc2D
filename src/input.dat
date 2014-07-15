@@ -1,5 +1,6 @@
 dimension 10
 printing 1
+# seed 9
 #
 #.... elementary barriers (in eV) and inverse temperature (in 1/eV), temperature (K)
 #     1 - PTMDC diffusion via pivoting mechanism
@@ -9,6 +10,7 @@ printing 1
 #     5 - PTMDC desorption from surface
 #     6 - PTMDC extra isomerization barrier because in a linker
 barriers 0.03 0.2 0.4 0.2 2.4 0.013
+ignore_single_HB
 temperature 300.0
 
 
@@ -28,8 +30,9 @@ drawing_frequency 100000
 drawing_scale  1000
 drawing_title_size 40
 
-restart restart.kmc
-#do_testing
+#restart restart.kmc
+do_testing
+#write_kmcout
 #formatted
 #show_site_numbers
 multicolor

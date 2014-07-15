@@ -34,7 +34,7 @@ program KMC_main
 !
 !............. initialice the Interaction's matrix
 !
-  call init_interactions()
+  call init_interactions(ignore_single_HB)
 !
 !................... initialise positions of the Au atoms and M's
 !

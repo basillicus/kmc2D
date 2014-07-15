@@ -1,0 +1,105 @@
+Keywords
+========
+
+How to read it
+--------------
+
+**Keywords** are writen in bold. If the keyword needs a parameter, this
+parameter is written with ``this font``. The kind of the parameter is defined
+after the point, where ``.int`` means that it is an integer, ``.real`` a real
+number, or ``.str`` a string. Sometimes, when the keyword is relative to a
+logival variable, the presence of the keyword switchs its default value. If
+the parameter is [between brackets] it means that the parameter is optional.
+The (default value) is given in parentesis.  If the keyword is preceded with
+an exclamation sign means that this keyword is mandatory to be included in the
+input file.
+
+* ! **dimension** ``dimension.int``
+
+Set the size of the supercell (dimension.int x dimension.int). It must be
+bigger than 2
+
+* ! **deposition_rate** ``deposition.real``
+Set the deposition rate in ps :sup:`-1`
+ 
+* ! **coverage** ``coverage.real``  (0-1]
+Set the coverage of the surface. Values range from 0 to 1.
+
+* ! **number_of_kmc_steps** ``steps.int``  
+Set the total number of steps of the simulation.
+
+* ! **barriers** 6 x ``barriers.real``
+Set the energy barriers in eV. Descriptions of the barriers are shown in the table
+below.
+
+  ====   =========================================================
+    #    Description                                             
+  ====   =========================================================
+    1     PTMDC diffusion via pivoting mechanism                  
+    2     PTMDC-PTMDC detachement (a dimer); then additive        
+    3     PTMDC single isomerization                               
+    4     PTMDC extra barrier for assisted isomerization          
+    5     PTMDC desorption from surface                           
+    6     PTMDC extra isomerization barrier for trans monomers   
+  ====   =========================================================
+
+* ! **temperature** ``temperature.real``
+Set the temperature of the simulation in Kelvin.
+
+* **do_testing** 
+If present, the program enters in the testing mode. 
+
+* **show_site_numbers** 
+If present, numbers corresponding to the sites of the cell are drawn.
+
+* **printing** ``printing.int`` [0-5] (defaulf = 0)
+ Set the level of print
+
+* **multicolor**  (default = false)
+
+If present, each isomer is filled with different colors. 
+
+ Multicolor: (Inspired on the Day Of The Tentacle)
+     
+     Cis : Blue rectangles, pink circles 
+
+     L-trans: Magenta rectangles, green circles
+
+     D-trans: Green rectangles, yellow circles 
+
+* **drawing_frequency**  ``frequency.int`` (default = 100)
+Frames will be printed after ``frequency.int`` KMC steps.
+
+* **drawing_scale**  ``scale.int`` (default = 800)
+Set the scale of the drawings in the frames.
+
+* **drawing_title_size**  ``scale.int`` (default = 20)
+Set the size for drawing the title.
+
+* **show_images**  (default = false)
+If present, files .fig  are created.
+
+* **no_jpgs**  (default = false)
+If present, the program will not generate the jpgs during the execution.
+After the simulation, jpgs images can be generated from .fig files
+executing
+
+    ``fig2dev -L jpeg frame.fig frame.jpg``
+
+If **show_images** is not present and **no_jpgs** is not present, then no frames
+will be created.
+
+
+
+* **restart** ``restartfile.str``
+
+If present, KMC will restart from a previous calculation. The file
+``restartfile.str``  must be given and must exist.
+
+* **write_kmcout** [**formatted** (default = unformatted) ] (default = false)
+
+If present, kmc.out file will be written. By default it will be unformatted,
+but if the optional **formatted** keyword is present, it will be written in a
+human-readable form. This file contains the history of the entire simulation.
+
+*NOTE:* kmc.out file becomes rapidly huge.
