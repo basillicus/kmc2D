@@ -9,8 +9,8 @@ printing 1
 #     4 - PTMDC extra barrier for assisted isomerization
 #     5 - PTMDC desorption from surface
 #     6 - PTMDC extra isomerization barrier because in a linker
-barriers 0.03 0.2 0.4 0.2 2.4 0.013
-ignore_single_HB
+barriers 0.03 0.201 0.4 0.2 2.4 0.013
+#ignore_single_HB
 temperature 300.0
 
 
@@ -19,7 +19,7 @@ temperature 300.0
 
 deposition_rate    0.0001
 coverage 0.2
-# allow_high_coverage
+allow_high_coverage
 
 number_of_kmc_steps 1000000
 

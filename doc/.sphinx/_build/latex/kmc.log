@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.6.24)  10 APR 2014 18:15
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.6.24)  15 JUL 2014 17:50
 entering extended mode
  %&-line parsing enabled.
 **kmc.tex
@@ -893,33 +893,35 @@ LaTeX Font Info:    Try loading font information for T1+pcr on input line 182.
 (/usr/share/texmf-texlive/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 189.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 195.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 197.
 
 
 (/usr/share/texmf-texlive/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [5] [6]
-Chapter 3.
-(./kmc.ind) [7
+) [5] [6] [7] [8
 
-] (./kmc.aux) ) 
+]
+Chapter 3.
+(./kmc.ind) [9] (./kmc.aux) ) 
 Here is how much of TeX's memory you used:
- 7903 strings out of 493848
- 106489 string characters out of 1152823
- 191888 words of memory out of 3000000
- 10971 multiletter control sequences out of 15000+50000
- 52691 words of font info for 58 fonts, out of 3000000 for 9000
+ 7926 strings out of 493848
+ 106864 string characters out of 1152823
+ 191100 words of memory out of 3000000
+ 10987 multiletter control sequences out of 15000+50000
+ 57157 words of font info for 61 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
- 45i,11n,45p,293b,381s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/shar
-e/texmf-texlive/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-texlive/fo
-nts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/hel
-vetic/uhvbo8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmb8a.pfb></
-usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-texl
-ive/fonts/type1/urw/times/utmri8a.pfb>
-Output written on kmc.pdf (11 pages, 86724 bytes).
+ 45i,11n,49p,293b,381s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.
+enc}</usr/share/texmf-texlive/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/te
+xmf-texlive/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-texlive/fonts
+/type1/urw/helvetic/uhvbo8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times
+/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb></usr/sh
+are/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
+Output written on kmc.pdf (13 pages, 91301 bytes).
 PDF statistics:
- 102 PDF objects out of 1000 (max. 8388607)
- 16 named destinations out of 1000 (max. 500000)
- 33 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 120 PDF objects out of 1000 (max. 8388607)
+ 22 named destinations out of 1000 (max. 500000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

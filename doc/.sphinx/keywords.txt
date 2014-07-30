@@ -14,6 +14,12 @@ The (default value) is given in parentesis.  If the keyword is preceded with
 an exclamation sign means that this keyword is mandatory to be included in the
 input file.
 
+Keywords
+--------
+
+Mandatory keywords
+..................
+
 * ! **dimension** ``dimension.int``
 
 Set the size of the supercell (dimension.int x dimension.int). It must be
@@ -46,14 +52,36 @@ below.
 * ! **temperature** ``temperature.real``
 Set the temperature of the simulation in Kelvin.
 
+Detailing the simulations
+.........................
+
+* **ignore_single_HB**
+If present, single hydrogen bond will not be taken into account.
+
+* **seed** ``seed.int`` 
+Choose the seed for the random number generation. If seed > 0 will use the
+given seed. If seed <= 0 or not given, seed will be choose randomly.
+
 * **do_testing** 
 If present, the program enters in the testing mode. 
 
-* **show_site_numbers** 
-If present, numbers corresponding to the sites of the cell are drawn.
+* **restart** ``restartfile.str``
+
+If present, KMC will restart from a previous calculation. The file
+``restartfile.str``  must be given and must exist. 
+
+*NOTE:* In the testing mode can be generated an initial configuration of
+molecules, save that configuration to a file (option -2 in the testing mode)
+and choose that configuration as a restart file for run a entire simulation.
+
+Printing and drawing keywords
+.............................
 
 * **printing** ``printing.int`` [0-5] (defaulf = 0)
  Set the level of print
+
+* **show_site_numbers** 
+If present, numbers corresponding to the sites of the cell are drawn.
 
 * **multicolor**  (default = false)
 
@@ -89,13 +117,6 @@ executing
 If **show_images** is not present and **no_jpgs** is not present, then no frames
 will be created.
 
-
-
-* **restart** ``restartfile.str``
-
-If present, KMC will restart from a previous calculation. The file
-``restartfile.str``  must be given and must exist.
-
 * **write_kmcout** [**formatted** (default = unformatted) ] (default = false)
 
 If present, kmc.out file will be written. By default it will be unformatted,
@@ -103,3 +124,4 @@ but if the optional **formatted** keyword is present, it will be written in a
 human-readable form. This file contains the history of the entire simulation.
 
 *NOTE:* kmc.out file becomes rapidly huge.
+

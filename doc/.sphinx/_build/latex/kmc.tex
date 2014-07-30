@@ -13,7 +13,7 @@
 
 
 \title{KMC Documentation}
-\date{April 10, 2014}
+\date{July 15, 2014}
 \release{1.0}
 \author{David Abbasi}
 \newcommand{\sphinxlogo}{}
@@ -179,13 +179,21 @@ ante. Sed lacinia nunc nisl, at eleifend odio hendrerit quis.  i
 \section{How to read it}
 \label{keywords:how-to-read-it}
 \textbf{Keywords} are writen in bold. If the keyword needs a parameter, this
-parameter is written in \code{this font}. The kind of the variable is defined
+parameter is written with \code{this font}. The kind of the parameter is defined
 after the point, where \code{.int} means that it is an integer, \code{.real} a real
-number, or \code{.str} a string. If the parameter is {[}between brackets{]} it means
-that the parameter is optional. The (default value) is given in parentesis.
-If the keyword is preceded with an exclamation sign means that this keyword is
-mandatory to be included in the input file.
-\begin{itemize}
+number, or \code{.str} a string. Sometimes, when the keyword is relative to a
+logival variable, the presence of the keyword switchs its default value. If
+the parameter is {[}between brackets{]} it means that the parameter is optional.
+The (default value) is given in parentesis.  If the keyword is preceded with
+an exclamation sign means that this keyword is mandatory to be included in the
+input file.
+
+
+\section{Keywords}
+\label{keywords:id1}
+
+\subsection{Mandatory keywords}
+\label{keywords:mandatory-keywords}\begin{itemize}
 \item {} 
 ! \textbf{dimension} \code{dimension.int}
 
@@ -271,6 +279,24 @@ PTMDC extra isomerization barrier for trans monomers
 \end{itemize}
 
 Set the temperature of the simulation in Kelvin.
+
+
+\subsection{Detailing the simulations}
+\label{keywords:detailing-the-simulations}\begin{itemize}
+\item {} 
+\textbf{ignore\_single\_HB}
+
+\end{itemize}
+
+If present, single hydrogen bond will not be taken into account.
+\begin{itemize}
+\item {} 
+\textbf{seed} \code{seed.int}
+
+\end{itemize}
+
+Choose the seed for the random number generation. If seed \textgreater{} 0 will use the
+given seed. If seed \textless{}= 0 or not given, seed will be choose randomly.
 \begin{itemize}
 \item {} 
 \textbf{do\_testing}
@@ -280,12 +306,20 @@ Set the temperature of the simulation in Kelvin.
 If present, the program enters in the testing mode.
 \begin{itemize}
 \item {} 
-\textbf{show\_site\_numbers}
+\textbf{restart} \code{restartfile.str}
 
 \end{itemize}
 
-If present, numbers corresponding to the sites of the cell are drawn.
-\begin{itemize}
+If present, KMC will restart from a previous calculation. The file
+\code{restartfile.str}  must be given and must exist.
+
+\emph{NOTE:} In the testing mode can be generated an initial configuration of
+molecules, save that configuration to a file (option -2 in the testing mode)
+and choose that configuration as a restart file for run a entire simulation.
+
+
+\subsection{Printing and drawing keywords}
+\label{keywords:printing-and-drawing-keywords}\begin{itemize}
 \item {} 
 \textbf{printing} \code{printing.int} {[}0-5{]} (defaulf = 0)
 
@@ -294,6 +328,13 @@ If present, numbers corresponding to the sites of the cell are drawn.
 
 Set the level of print
 \end{quote}
+\begin{itemize}
+\item {} 
+\textbf{show\_site\_numbers}
+
+\end{itemize}
+
+If present, numbers corresponding to the sites of the cell are drawn.
 \begin{itemize}
 \item {} 
 \textbf{multicolor}  (default = false)
@@ -357,14 +398,6 @@ executing
 
 If \textbf{show\_images} is not present and \textbf{no\_jpgs} is not present, then no frames
 will be created.
-\begin{itemize}
-\item {} 
-\textbf{restart} \code{restartfile.str}
-
-\end{itemize}
-
-If present, KMC will restart from a previous calculation. The file
-\code{restartfile.str}  must be given and must exist.
 \begin{itemize}
 \item {} 
 \textbf{write\_kmcout} {[}\textbf{formatted} (default = unformatted) {]} (default = false)

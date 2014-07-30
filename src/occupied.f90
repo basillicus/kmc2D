@@ -46,8 +46,8 @@ module occupied
 !..............................................................................
 ! all moves for all molecules are collected and numbered (by m)
 !..............................................................................
-    integer m,i,i1,j,inn,empty,oc,k,i2,i4,pivoting,isomerization
-    real*8 barrier,rate
+    integer m,i,i1,j,empty,oc,k,i2,i4,pivoting,isomerization
+    real*8 barrier,rate, inn
     real ran2
     logical  is_valid, oc1 
     if(testing) write(*,*) '<=================> MOVES <====================>'
@@ -538,7 +538,7 @@ if (allow_high_coverage) then
 
  end function
 
- integer function check_interactions(A,pos)
+ real function check_interactions(A,pos)
  !---------------------------------------------------------------
  ! Input:  A - occ of the molecule to be checked
  !         pos - site number of that molecule
@@ -546,7 +546,8 @@ if (allow_high_coverage) then
  !---------------------------------------------------------------
      use info
      implicit none
-     integer  :: A,B,j,pos,i,inn
+     integer  :: A,B,j,pos,i
+     real     :: inn
      
  ! Check the interactions for diffusion and desorption movements
      inn = 0
@@ -581,11 +582,12 @@ if (allow_high_coverage) then
      check_interactions = inn
  end function
  
- integer function check_inter_isomer (A,pos,kind)
+ real function check_inter_isomer (A,pos,kind)
      use info
      ! Kind of isomerization (1 or 2)
      implicit none
-     integer  :: A,B,pos,kind,j,inn
+     integer  :: A,B,pos,kind,j
+     real     :: inn
  
      ! Check the environment for the isomeriztaion movement
      inn = 0
@@ -605,7 +607,7 @@ if (allow_high_coverage) then
      check_inter_isomer = inn
  end function
  
- integer function check_inter_linker (A,pos,kind)
+ real function check_inter_linker (A,pos,kind)
      use info
      ! Kind of isomerization (1 or 2)
      implicit none
