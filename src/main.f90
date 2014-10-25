@@ -1,5 +1,5 @@
 program KMC_main
-  use occupied
+  use occupied ! occupied uses: param, moves and interactions
   use change
   ! use interactions
   implicit none
@@ -8,7 +8,9 @@ program KMC_main
 !... working
   integer kmc,m,j,kmc0,l0
   character cha*10
-  real*8 time,temp0
+  real*8 time
+
+  call flush ()
 !
 !........ open the main output file
   open(9,file='OUTPUT.kmc')
@@ -57,11 +59,12 @@ program KMC_main
 !.........................................................................
 !
   allocate(empty_info(LL3)) 
-!...... maximum # of possible PTPMD moves:
+!...... maximum # of possible PTMDC moves:
 !  - 4*LL3 diffusion moves
+!  - 2*LL3 isomerizations
 !  - 1 adsorption move (at random)
 !  - LL3 desorption moves
-  max_moves=LL3*5 + 1
+  max_moves=LL3*7 + 1
   if(.not.standard_kmc) max_moves=max_moves+1
   allocate(move(max_moves)) 
 !
@@ -89,10 +92,11 @@ program KMC_main
      end if
   end if
 !
-  Temp0=Temp
+  write(*,'(a,i10,a,f10.3,a,f18.3)')'.......INITIAL KMC = ',kmc,', T = ',Temp,' K .....Time Interval =.', time_interval
   DO kmc=1+kmc0,No_kmc+kmc0
      if(mod(kmc,No_draw).eq.0) &
          write(*,'(a,i10,a,f10.3,a)')'....... KMC = ',kmc,', T = ',Temp,' K ......'
+         ! write(*,'(a,f18.3,a,f18.3,a,f18.3)')'Time ', time,',Temperature ', temp, 'K, Next Time: ', next_time
      if(iPrnt.ge.2) write(9,*)'............. KMC = ',kmc,' ...............'
 !
 !_________________ create/update moves
@@ -108,9 +112,12 @@ program KMC_main
 !_________________ draw
      if(mod(kmc,No_draw).eq.0) then
         kmc_to_draw=kmc
-        call draw(kmc,occ,.false.,time)
+        call draw(kmc,occ,.false.,time,Temp)
      end if
-     time=time+dt
+    !  time=time+dt
+
+    call updateTime (time)
+    call updateTemperature (kmc)
 !
 !________________________ simple error check
      call error_check(occ,kmc)
@@ -118,7 +125,7 @@ program KMC_main
 !________________________ save to the file the current configuration
      if (write_kmcout) then
          if(.not.write_formatted) then
-            write(10) kmc,dt,time,    no_chg,(i_chg(j),occ_chg(j),j=1,no_chg), &
+            write(10) kmc,dt,time,no_chg,(i_chg(j),occ_chg(j),j=1,no_chg), &
                  m,move(m)%type,move(m)%ini,move(m)%fin,move(m)%dir
          else
             write(10,'(i20,2(x,e12.6))') kmc,dt,time
@@ -136,7 +143,7 @@ program KMC_main
   END DO
 !
   kmc_to_draw=kmc
-  call draw(kmc,occ,.false.,time)
+  call draw(kmc,occ,.false.,time,temp)
   close (10) 
   write(9,'(a)')'_____}> going to [finish] to STOP <{________ normal END'
   call finish(occ,No_kmc+kmc0,time)
@@ -172,7 +179,7 @@ end program KMC_main
              read(*,*,err=10) oc
              if(i.ge.1 .and. i.le.LL3 .and. oc.ge.0 .and. oc.le.12) then
                  occ(i)=oc ;     kmc_to_draw=1
-                 call draw(1,occ,testing,time)
+                 call draw(1,occ,testing,time,temp)
              else 
                  write (*,*) "Wrong i or occ(i). Molecule not added"
              end if
@@ -180,16 +187,18 @@ end program KMC_main
              write (*,*) 'Give a filename to save the current configuration:'
              read (*,'(15a)') filename 
              open (33, file=trim(filename),form='formatted',status='new')
-             write (33,'(i2)') occ
+             write (33,*)  " 0    0.000" ! kmc and time
+             write (33,'(40i3)') occ
              close (33)
              i = 0  ! Continue dopositing molecules
          else if (i == -3 ) then
              write (*,*) 'Give a filename to read from the configuration:'
              read (*,'(15a)') filename 
              open (33, file=trim(filename),form='formatted',status='old')
-             read (33,'(i2)') occ
+             read (33,*) kmc, time
+             read (33,'(40i3)') occ
              close (33)
-             call draw(1,occ,testing,time)
+             call draw(1,occ,testing,time,temp)
              i = 0  ! Continue dopositing molecules
         end if
     end do
@@ -217,7 +226,7 @@ end program KMC_main
        write(*,*)'............. KMC = ',kmc,' ...............'
        call all_moves()
        kmc_to_draw=kmc
-       call draw(kmc,occ,.true.,time)
+       call draw(kmc,occ,.true.,time,temp)
        call which_move(m1)
        if(kmc.ge.kmc_jump) then
 1         write(*,'(/a)') 'Choose which move to accept: '
@@ -234,12 +243,48 @@ end program KMC_main
        write(*,'(a,i5)')'===> The move chosen = ',m
        occ_old=occ
        call perform_move(m,occ,kmc)
+       call updateTime (time)
        kmc_to_draw=kmc
-       call draw(kmc,occ,testing,time)
+       call draw(kmc,occ,testing,time,temp)
     end do
   end subroutine do_test
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+  subroutine updateTime (time)
+      use param
+      
+      implicit none
+      real*8, intent(inout) :: time
+
+      time = time + dt 
+
+  end subroutine
+
+  subroutine updateTemperature (kmc)
+      use param
+
+      implicit none
+      ! real*8 :: time
+      integer :: kmc
+      
+      
+      ! Update by time step
+      ! if (time >= next_time) then
+      !     next_time = time + time_interval
+      !     Temp = Temp + temperature_ramp
+      !     beta = 1.0/(Boltzm*Temp)
+      ! end if
+
+      ! Update by kmc steps
+      if (kmc >= next_step) then
+          next_step = kmc + steps_interval 
+          write (*,*) 'Next T update at ', next_step
+          Temp = Temp + temperature_ramp
+          beta = 1.0/(Boltzm*Temp)
+      end if
+
+  end subroutine 
 
   subroutine finish(occ,kmc,time)
     use param
@@ -264,7 +309,7 @@ end program KMC_main
        do i=1,LL3
           if(occ(i).gt.0) no_m=no_m+1
        end do
-       if (no_m.eq.Max_no_of_M .or. no_m.ge.LL3/2) then
+       if (no_m.eq.Max_no_of_M .or. no_m.ge.LL3) then
           write(*,*)'WARNING: The coverage target reached at KMC step ',kmc
           write(*,*)'         NO more deposition!'
           write(9,*)'WARNING: The coverage target reached at KMC step ',kmc

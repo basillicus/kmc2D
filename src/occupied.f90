@@ -589,7 +589,7 @@ if (allow_high_coverage) then
      integer  :: A,B,pos,kind,j
      real     :: inn
  
-     ! Check the environment for the isomeriztaion movement
+     ! Check the environment for the isomerization movement
      inn = 0
      if (A <= 4) then 
          j = dir_isomer(A,kind)
@@ -625,7 +625,7 @@ if (allow_high_coverage) then
      ! isolated monomer.
      ! --------------------------------------------------------------------------------
      if (A == 3  .or. A == 4 .or.  A == 7  .or. A == 8 .or.  A == 11 .or. A == 12 ) then
-         check_inter_linker = 1
+         check_inter_linker = 1.0
      end if
  end function
 end module occupied

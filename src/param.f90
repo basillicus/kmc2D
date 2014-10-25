@@ -2,13 +2,13 @@ module param
   use strings
   implicit none
 !... L      - grid dimension
-  integer L,LL3,LL4
+  integer :: L,LL3,LL4
 !
 !... No_kmc - number of KMC steps
-  integer No_kmc
+  integer :: No_kmc
 !
 !... Periodic Boundary Conditions (PBC)
-  logical pbc
+  logical :: pbc
 !
 !... elementary barriers (in eV) and inverse temperature (in 1/eV), temperature (K)
 !     1 - PTMDC diffusion via pivoting mechanism
@@ -17,42 +17,55 @@ module param
 !     4 - PTMDC assisted isomerization
 !     5 - PTMDC desorption from surface
 !     6 - PTMDC extra isomerization barrier because in a linker
-  real*8 elem_barriers(20),beta,Temp,pref,beta1,Temp1
-  logical ignore_single_HB
+  real*8  :: elem_barriers(20), beta, Temp, temperature_ramp, pref
+  logical :: ignore_single_HB
 !
 !... 
-  real*8,parameter :: Boltzm=  8.617343e-5  ! in eV/K
+  real*8,parameter :: Boltzm = 8.617343e-5  ! in eV/K
 !
 !... deposition
-  real*8 depos_rate,coverage,max_coverage
-  integer Max_no_of_M
-  logical deposition
+  real*8  :: depos_rate, coverage, max_coverage
+  integer :: Max_no_of_M
+  logical :: deposition
+
 !... High Coverage or Low Coverage Phase
-  logical allow_high_coverage
+  logical :: allow_high_coverage
+
 !... useful global-types
   real*8, parameter :: tiny=0.000001
-  real*8   :: real_seed
-  integer seed, iPrnt
+  real*8  :: real_seed
+  integer :: seed, iPrnt
 !
 !... for drawing
-  logical images,rotate,show_site_num,multicolor,show_prop,create_jpgs
-  integer No_draw,len_No_kmc,scale,kmc_to_draw,color
-  integer tsize
+  logical :: images, rotate, show_site_num, multicolor, show_prop, create_jpgs, show_surface
+  integer :: No_draw, len_No_kmc, scale, kmc_to_draw, color
+  integer :: tsize
 !
 !... for testing (interactive  regime)
-  logical testing
+  logical :: testing
+
 !... what type of KMC: standard or fixed step
-  logical standard_kmc
+  logical :: standard_kmc
+ 
+!... time variables
+  real*8  ::  next_time=0.d0
+  integer :: next_step = 2e9 
+  integer :: steps_interval= 0 ! Change T every this kmc steps
+
 !... time step (in ps)
-  real*8 dt
+  logical :: fixed_time_step
+  real*8  :: dt, time_step = 0.d0
+  real*8  :: time_interval = 1.0d12 ! 1 second in ps
+
+
 !... restart
-  logical restart
-  character restart_filename*50
+  logical   :: restart
+  character :: restart_filename*50
 !... kmc.out file formatting
-  logical write_formatted, write_kmcout
+  logical   :: write_formatted, write_kmcout
 !... strings for working with input
-  character Line*200
-  integer LinEnd(100),LinPos(100),NumLin,iErr
+  character :: Line*200
+  integer   :: LinEnd(100), LinPos(100), NumLin, iErr
  
   CONTAINS
 
@@ -195,6 +208,37 @@ module param
     read(Line(LinPos(2):LinEnd(2)),*,err=10) Temp
     beta=1.0/(Boltzm*Temp)
 !
+!_________________ temperature ramp
+!
+    temperature_ramp = 0.0 ! K/time_interval
+    call find_string('temperature_ramp',16,Line,1,.true.,iErr)
+    if(iErr.eq.0) then 
+        call CutStr(Line,NumLin,LinPos,LinEnd,0,0,iErr)
+        if(NumLin.lt.2) go to 10
+        read(Line(LinPos(2):LinEnd(2)),*,err=10) temperature_ramp
+    end if
+!
+!_________________ time interval (in seconds) for temperature ramp
+!
+    call find_string('time_interval',13,Line,1,.true.,iErr)
+    if(iErr.eq.0) then
+        call CutStr(Line,NumLin,LinPos,LinEnd,0,0,iErr)
+        if(NumLin.lt.2) go to 10
+        read(Line(LinPos(2):LinEnd(2)),*,err=10) time_interval 
+        time_interval = time_interval * 1d12  ! convert to ps 
+    end if
+!
+!_________________ time interval (in seconds) for temperature ramp
+!
+    call find_string('steps_interval',14,Line,1,.true.,iErr)
+    if(iErr.eq.0) then
+        call CutStr(Line,NumLin,LinPos,LinEnd,0,0,iErr)
+        if(NumLin.lt.2) go to 10
+        read(Line(LinPos(2):LinEnd(2)),*,err=10) steps_interval 
+        next_step = steps_interval
+       write(9,'(a,i10,a)') '... T will be update every ', steps_interval, ' kmc steps'
+    end if
+!
 !________ prefix to the rate, i.e. the exp prefactor to the rate:
 !         - in inverse ps (1 ps=10^{-12} s)
     pref= +1.0 * log(10.0)
@@ -243,6 +287,15 @@ module param
     else
        write(9,'(a,l1)') '... Site numbers will NOT be shown'
     end if
+!_________________ if to show the surface on rames
+    show_surface=.false.
+    call find_string('show_surface',12,Line,1,.true.,iErr)
+    if(iErr.eq.0) show_surface=.true.
+    if(show_surface) then
+       write(9,'(a,l1)') '... Surface WILL be shown'
+    else
+       write(9,'(a,l1)') '... Surface will NOT be shown'
+    end if
 
 !__________________ color of PTMDC
     ! color=4
@@ -251,9 +304,9 @@ module param
     if(iErr.eq.0) multicolor = .true. 
     if (multicolor) then
          write(9,'(a,i10,a)')'... You choose Multicolor: (Inspired on the Day Of The Tentacle)' 
-         write(9,'(a,i10,a)')'....... Cis : Blue rectangles, pink circles ' 
+         write(9,'(a,i10,a)')'....... Cis : Green rectangles, yellow circles' 
          write(9,'(a,i10,a)')'....... L-trans: Magenta rectangles, green circles' 
-         write(9,'(a,i10,a)')'....... D-trans: Green rectangles, yellow circles' 
+         write(9,'(a,i10,a)')'....... D-trans: Blue rectangles, pink circles ' 
     else 
          write(9,'(a,i10,a)')'...  Multicolor not used' 
     end if
@@ -319,16 +372,13 @@ module param
        read(Line(LinPos(2):LinEnd(2)),*,err=10) seed
     end if
     if (seed > 0 ) then 
-        seed = -seed
+        seed = -seed ! Seed has to be a negative integer
         write(9,'(a,i6)')'... Seed used for Random Number Generation = ', -seed
     else 
-!
-!__________ Change the seed for random numbers generation
-!
-!__________ initialise seed
-        call init_random_seed()
-        call random_number(real_seed)
-        seed = -int(real_seed*10000)-1
+!       Change the seed for random numbers generation
+        call init_random_seed()        ! initialise seed using the clock
+        call random_number(real_seed)  ! Get a real random number (0.0-1.0)
+        seed = -int(real_seed*10000)-1 ! Convert real_seed to integer between [1? o 0? y 10000]
         write(9,'(a,i6)')'... Random seed used for Random Number Generation = ', -seed
     end if 
 !

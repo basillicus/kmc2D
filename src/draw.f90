@@ -1,4 +1,4 @@
-  subroutine draw(kmc,occ,test,time)
+  subroutine draw(kmc,occ,test,time,temperature)
     use info
 !.............................................................................
 ! Draw the current frame of the system into frame#.fig file
@@ -9,7 +9,7 @@
     ! Number of the molecules adsorbed
     integer :: nCis=0, nLtrans=0, nDtrans=0, nTotal=0
     character cha*10
-    real*8 r(2),time
+    real*8 r(2),time,temperature
     real*8 :: x1_h,y1_h,x2_h,y2_h, x1_v,y1_v,x2_v,y2_v
     logical if_in_latt,test
 !
@@ -30,28 +30,31 @@
 !............. write the KMC step and the time in ns
 !    
     call title(time,AJ)
+    call draw_temperature (temperature,AJ)
 !
 !............. plot the lattice first
 !    
-    do k=-1,L+1
-       ! Vertical lines
-        x1_v = k*AJ(1,1) - AJ(2,1)
-        y1_v = AJ(2,2)
-        x2_v = k*(AJ(1,1)) + (L+1)*AJ(2,1)
-        y2_v = -(L+1)*AJ(2,2)
-       call draw_line(x1_v,y1_v,x2_v,y2_v)
+    if (show_surface) then 
+        do k=-1,L+1
+           ! Vertical lines
+            x1_v = k*AJ(1,1) - AJ(2,1)
+            y1_v = AJ(2,2)
+            x2_v = k*(AJ(1,1)) + (L+1)*AJ(2,1)
+            y2_v = -(L+1)*AJ(2,2)
+           call draw_line(x1_v,y1_v,x2_v,y2_v)
 
-       ! Horizontal Lines
-       x1_h = k*AJ(2,1)-1 
-       y1_h = -k*AJ(2,2)
-       x2_h = k*AJ(2,1) + (L+1)*AJ(1,1)
-       y2_h = -k*AJ(2,2) 
-       call draw_line(x1_h,y1_h,x2_h,y2_h)
+           ! Horizontal Lines
+           x1_h = k*AJ(2,1)-1 
+           y1_h = -k*AJ(2,2)
+           x2_h = k*AJ(2,1) + (L+1)*AJ(1,1)
+           y2_h = -k*AJ(2,2) 
+           call draw_line(x1_h,y1_h,x2_h,y2_h)
 
-       ! Diagonal Lines
-       call draw_line(x1_h,y1_h,x1_v,y1_v )
-       call draw_line(x2_h,y2_h,x2_v,y2_v )
-    end do
+           ! Diagonal Lines
+           call draw_line(x1_h,y1_h,x1_v,y1_v )
+           call draw_line(x2_h,y2_h,x2_v,y2_v )
+        end do
+    end if
 !
 !............. indicate the cell
 !
@@ -297,14 +300,14 @@
         if (config == 3 .or. config == 7 .or. config == 11) then
             col_Rect = magenta
             col_Circ = green
-        ! D-trans colors (Tentacle 2)
+        ! D-trans colors (Benjamin Franklin)
         else if (config == 4 .or. config == 8 .or. config == 12) then
-            col_Rect =  green
-            col_Circ =  yellow
-        ! Cis colors  (Benjamin Franklin)
-        else 
             col_Rect = blue
             col_Circ = pink
+        ! Cis colors  (Tentacle 2)
+        else 
+            col_Rect =  green
+            col_Circ =  yellow
         end if 
     end if 
     !  ! IT WORKS----------------------------

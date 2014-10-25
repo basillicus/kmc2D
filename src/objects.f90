@@ -7,38 +7,58 @@
     real*8 time,AJ(2,2),tm
     integer i,j,l0,l1,j1
     character cha*10,cha1*5,cha2*16,ch*4
+
 !... to print on the right side
     i= ((L+1)*AJ(1,1)+2)*scale ; j1=1*AJ(2,2)*scale
     write(cha,'(i10)') kmc_to_draw ;     call posit(cha,10,l0)
     write(cha1,'(i5)') tsize    ;     call posit(cha1,5,l1)
     write(1,'(a,2(i10,x),a)') '4 0 0 44 -1 26 '//cha1(l1:)//' 0.0000 4 225 390 ',&
              i,j1,'Step '//cha(l0:)//char(92)//'001'
+
 !..... work out the time
-    if(time.lt.1.e+3) then
+    if(time.lt.1.d+3) then
        tm=time ; ch=' ps '
-    else if(time.lt.1.e+6) then
-       tm=time*1.e-3 ; ch=' ns '
-    else if(time.lt.1.e+9) then
-       tm=time*1.e-6 ; ch=' mcs'
-    else if(time.lt.1.e+12) then
-       tm=time*1.e-9 ; ch=' ms '
-    else if(time.lt.0.6e+14) then
-       tm=time*1.e-12 ; ch='  s '
-    else if(time.lt.3.6e+15) then
-       tm=time*1.6667e-14 ; ch=' min'
+    else if(time.lt.1.d+6) then
+       tm=time*1.d-3 ; ch=' ns '
+    else if(time.lt.1.d+9) then
+       tm=time*1.d-6 ; ch=' mcs'
+    else if(time.lt.1.d+12) then
+       tm=time*1.d-9 ; ch=' ms '
+    else if(time.lt.0.6d+14) then
+       tm=time*1.d-12 ; ch='  s '
+    else if(time.lt.3.6d+15) then
+       tm=time*1.6667d-14 ; ch=' min'
     else
-       tm=time*2.77778e-16 ; ch='  h '
+       tm=time*2.77778d-16 ; ch='  h '
     end if
-    write(cha2,'(f16.4)') tm ;     call posit(cha2,16,l0) 
+    write(cha2,'(f16.4)') tm ; call posit(cha2,16,l0) 
+
 !... to print on the right side
     j=j1-2*AJ(1,1)*scale
     write(1,'(a,2(i10,x),a)') '4 0 0 44 -1 26 '//cha1(l1:)//' 0.0000 4 225 390 ',&
              i,j,'Time: '//cha2(l0:)//ch//char(92)//'001'
+
 !.... draw a box around the title if printing on the right side
     write(1,'(a)') '2 1 0 1 7 7 50 -1 20 0.000 0 0 -1 0 0 5'
     write(1,'(9x,10i10)') i-scale,j1+scale,i+10*scale,j1+scale,i+10*scale,j-scale,&
                            i-scale,j-scale,i-scale,j1+scale
   end subroutine title
+
+  subroutine draw_temperature(Temperature,AJ)
+    use param
+
+    implicit none
+    real*8 Temperature,AJ(2,2)
+    integer i,j,l0,l1,j1
+    character cha*10,cha1*5,cha2*16,ch*4
+
+!... to print on the right side
+    i= ((L+1)*AJ(1,1)+2)*scale ; j1=0*AJ(2,2)*scale
+    write(cha,'(f10.2)') Temperature ;     call posit(cha,10,l0)
+    write(cha1,'(i5)') tsize    ;     call posit(cha1,5,l1)
+    write(1,'(a,2(i10,x),a)') '4 0 0 44 -1 26 '//cha1(l1:)//' 0.0000 4 225 390 ',&
+             i,j1,'Temperature '//cha(l0:)//' K'//char(92)//'001'
+  end subroutine draw_temperature
 
   subroutine draw_proportions(nCis,nLtrans,nDtrans,nTotal,AJ)
     use param
@@ -55,7 +75,7 @@
     proportion = float(nCis)/float(nTotal) * 100
     write(cha,'(f10.2)') proportion ;     call posit(cha,10,l0)
     write(cha1,'(i5)') tsize    ;     call posit(cha1,5,l1)
-    write(1,'(a,2(i10,x),a)') '4 0 1 44 -1 26 '//cha1(l1:)//' 0.0000 4 225 390 ',&
+    write(1,'(a,2(i10,x),a)') '4 0 12 44 -1 26 '//cha1(l1:)//' 0.0000 4 225 390 ',&
              i,j1,'Cis: '//cha(l0:)//char(92)//'001'
 
      ! Proportion of L-trans
@@ -71,7 +91,7 @@
     proportion = float(nDtrans)/float(nTotal) * 100
     write(cha,'(f10.2)') proportion ;     call posit(cha,10,l0)
     write(cha1,'(i5)') tsize    ;     call posit(cha1,5,l1)
-    write(1,'(a,2(i10,x),a)') '4 0 12 44 -1 26 '//cha1(l1:)//' 0.0000 4 225 390 ',&
+    write(1,'(a,2(i10,x),a)') '4 0 1 44 -1 26 '//cha1(l1:)//' 0.0000 4 225 390 ',&
              i,j1,'D-Trans: '//cha(l0:)//char(92)//'001'
 
   end subroutine draw_proportions 
