@@ -50,7 +50,7 @@ module param
 !... time variables
   real*8  ::  next_time=0.d0
   integer :: next_step = 2e9 
-  integer :: steps_interval= 0 ! Change T every this kmc steps
+  integer :: steps_interval= 0      ! Change T every this kmc steps
 
 !... time step (in ps)
   logical :: fixed_time_step
@@ -66,6 +66,10 @@ module param
 !... strings for working with input
   character :: Line*200
   integer   :: LinEnd(100), LinPos(100), NumLin, iErr
+
+!... Statistics variables
+  logical   :: do_statistics   ! If perform statistics
+  integer   :: freq_statistics ! Perform statistics every this steps
  
   CONTAINS
 
@@ -287,7 +291,8 @@ module param
     else
        write(9,'(a,l1)') '... Site numbers will NOT be shown'
     end if
-!_________________ if to show the surface on rames
+!_________________ if to show the surface on rames (for big cells, to avoid the
+!                  surface yield smaller in size images)
     show_surface=.false.
     call find_string('show_surface',12,Line,1,.true.,iErr)
     if(iErr.eq.0) show_surface=.true.
@@ -362,6 +367,23 @@ module param
     call find_string('allow_high_coverage',19,Line,1,.true.,iErr)
     if(iErr.eq.0) allow_high_coverage=.true.
     write(9,'(a,l1)') '... Allow High Coverage Phase = ',allow_high_coverage 
+!
+!_________________ if perform statistics
+    do_statistics = .false.
+    call find_string('do_statistics',13,Line,1,.true.,iErr)
+    if(iErr.eq.0) do_statistics=.true.
+    write(9,'(a,l1)') '... write statistics = ',do_statistics 
+
+    freq_statistics = 1000
+    call find_string('freq_statistics',15,Line,1,.true.,iErr)
+    if(iErr.eq.0) then
+       call CutStr(Line,NumLin,LinPos,LinEnd,0,0,iErr)
+       if(NumLin.lt.2) go to 10
+       read(Line(LinPos(2):LinEnd(2)),*,err=10) freq_statistics
+    end if
+    write(9,'(a,i7,a)')'... Heavy statistics perform every  = ',freq_statistics, ' kmc steps'
+
+
 !
 !___________ Choose fixed or random seed for random number generation
     seed= 0

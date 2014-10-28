@@ -38,8 +38,10 @@ program KMC_main
 !
   call init_interactions(ignore_single_HB)
 !
-!................... initialise positions of the Au atoms and M's
+!............. initialice the statistics module
 !
+  ! TODO: if (do_statistics) call init_statistics ()
+
   if(restart) then
      open(1,file=trim(restart_filename),err=100)
      read(1,*) kmc0,time ; read(1,*) occ  
@@ -108,6 +110,8 @@ program KMC_main
 
 !_________________ perform the move
      call perform_move(m,occ,kmc) 
+!_________________ do statistics
+     if (do_statistics) ! TODO: call perform_statistics (m,kmc,occ,time,temp)
 
 !_________________ draw
      if(mod(kmc,No_draw).eq.0) then
@@ -167,10 +171,10 @@ end program KMC_main
 !..................... drop the molecules first
 !
     occ=0 ; time=0.0 ; i = 1
-    write (*,*) ' INSRUCTIONS:'
-    write (*,*) ' -1 : End droping molecules'
-    write (*,*) ' -2 : Save current configuration to a file'
-    write (*,*) ' -3 : Load old configuration from a file'
+    write(*,*) ' INSRUCTIONS:'
+    write(*,*) ' -1 : End droping molecules'
+    write(*,*) ' -2 : Save current configuration to a file'
+    write(*,*) ' -3 : Load old configuration from a file'
 
     do while (i >= 0 )
     write(*,*)'Drop: give position i and occ(i): (Type -1 for ending)'
@@ -181,23 +185,23 @@ end program KMC_main
                  occ(i)=oc ;     kmc_to_draw=1
                  call draw(1,occ,testing,time,temp)
              else 
-                 write (*,*) "Wrong i or occ(i). Molecule not added"
+                 write(*,*) "Wrong i or occ(i). Molecule not added"
              end if
          else if (i == -2 ) then
-             write (*,*) 'Give a filename to save the current configuration:'
-             read (*,'(15a)') filename 
-             open (33, file=trim(filename),form='formatted',status='new')
-             write (33,*)  " 0    0.000" ! kmc and time
-             write (33,'(40i3)') occ
-             close (33)
+             write(*,*) 'Give a filename to save the current configuration:'
+             read(*,'(15a)') filename 
+             open(33, file=trim(filename),form='formatted',status='new')
+             write(33,*)  " 0    0.000" ! kmc and time
+             write(33,'(40i3)') occ
+             close(33)
              i = 0  ! Continue dopositing molecules
          else if (i == -3 ) then
-             write (*,*) 'Give a filename to read from the configuration:'
-             read (*,'(15a)') filename 
-             open (33, file=trim(filename),form='formatted',status='old')
-             read (33,*) kmc, time
-             read (33,'(40i3)') occ
-             close (33)
+             write(*,*) 'Give a filename to read from the configuration:'
+             read(*,'(15a)') filename 
+             open(33, file=trim(filename),form='formatted',status='old')
+             read(33,*) kmc, time
+             read(33,'(40i3)') occ
+             close(33)
              call draw(1,occ,testing,time,temp)
              i = 0  ! Continue dopositing molecules
         end if
@@ -279,7 +283,7 @@ end program KMC_main
       ! Update by kmc steps
       if (kmc >= next_step) then
           next_step = kmc + steps_interval 
-          write (*,*) 'Next T update at ', next_step
+          write(*,*) 'Next T update at ', next_step
           Temp = Temp + temperature_ramp
           beta = 1.0/(Boltzm*Temp)
       end if

@@ -9,7 +9,8 @@
     character cha*10,cha1*5,cha2*16,ch*4
 
 !... to print on the right side
-    i= ((L+1)*AJ(1,1)+2)*scale ; j1=1*AJ(2,2)*scale
+    ! i= ((L+1)*AJ(1,1)+2)*scale ; j1=1*AJ(2,2)*scale
+    i= ((L+1)*AJ(1,1)+5)*scale ; j1=-5*AJ(2,2)*scale
     write(cha,'(i10)') kmc_to_draw ;     call posit(cha,10,l0)
     write(cha1,'(i5)') tsize    ;     call posit(cha1,5,l1)
     write(1,'(a,2(i10,x),a)') '4 0 0 44 -1 26 '//cha1(l1:)//' 0.0000 4 225 390 ',&
@@ -53,7 +54,8 @@
     character cha*10,cha1*5,cha2*16,ch*4
 
 !... to print on the right side
-    i= ((L+1)*AJ(1,1)+2)*scale ; j1=0*AJ(2,2)*scale
+    !i= ((L+1)*AJ(1,1)+2)*scale ; j1=0*AJ(2,2)*scale
+    i= ((L+1)*AJ(1,1)+2)*scale ; j1=-3*AJ(2,2)*scale
     write(cha,'(f10.2)') Temperature ;     call posit(cha,10,l0)
     write(cha1,'(i5)') tsize    ;     call posit(cha1,5,l1)
     write(1,'(a,2(i10,x),a)') '4 0 0 44 -1 26 '//cha1(l1:)//' 0.0000 4 225 390 ',&
@@ -71,7 +73,7 @@
     character cha*10,cha1*5,cha2*16,ch*4
 
     ! Proportion of Cis
-    i= ((L+1)*AJ(1,1)-14)*scale ; j1=2*AJ(2,2)*scale
+    i= ((L+1)*AJ(1,1)-28)*scale ; j1=2*AJ(2,2)*scale
     proportion = float(nCis)/float(nTotal) * 100
     write(cha,'(f10.2)') proportion ;     call posit(cha,10,l0)
     write(cha1,'(i5)') tsize    ;     call posit(cha1,5,l1)
@@ -79,7 +81,7 @@
              i,j1,'Cis: '//cha(l0:)//char(92)//'001'
 
      ! Proportion of L-trans
-     i= ((L+1)*AJ(1,1)-4)*scale ; j1=2*AJ(2,2)*scale
+     i= ((L+1)*AJ(1,1)-8)*scale ; j1=2*AJ(2,2)*scale
      proportion = float(nLtrans)/float(nTotal) * 100
      write(cha,'(f10.2)') proportion ;     call posit(cha,10,l0)
      write(cha1,'(i5)') tsize    ;     call posit(cha1,5,l1)
@@ -87,7 +89,7 @@
               i,j1,'L-Trans: '//cha(l0:)//char(92)//'001'
  
     ! Proportion of D-trans
-    i= ((L+1)*AJ(1,1)+6)*scale ; j1=2*AJ(2,2)*scale
+    i= ((L+1)*AJ(1,1)+8)*scale ; j1=2*AJ(2,2)*scale
     proportion = float(nDtrans)/float(nTotal) * 100
     write(cha,'(f10.2)') proportion ;     call posit(cha,10,l0)
     write(cha1,'(i5)') tsize    ;     call posit(cha1,5,l1)
