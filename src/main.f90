@@ -1,6 +1,7 @@
 program KMC_main
   use occupied ! occupied uses: param, moves and interactions
   use change
+  use statistics
   ! use interactions
   implicit none
 !
@@ -40,7 +41,7 @@ program KMC_main
 !
 !............. initialice the statistics module
 !
-  ! TODO: if (do_statistics) call init_statistics ()
+  if (do_statistics) call init_statistics ()
 
   if(restart) then
      open(1,file=trim(restart_filename),err=100)
@@ -111,7 +112,7 @@ program KMC_main
 !_________________ perform the move
      call perform_move(m,occ,kmc) 
 !_________________ do statistics
-     if (do_statistics) ! TODO: call perform_statistics (m,kmc,occ,time,temp)
+     if (do_statistics) call perform_statistics (m,kmc,occ,time,temp)
 
 !_________________ draw
      if(mod(kmc,No_draw).eq.0) then
