@@ -1,2 +1,5 @@
-.swp
-.[oa]
+.*.swp
+*.[oa]
+*.mod
+
+tags
